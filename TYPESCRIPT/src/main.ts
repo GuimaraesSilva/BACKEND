@@ -1,31 +1,15 @@
-import express, { Express, Request, Response} from 'express';
+import express, {Express} from 'express';
+import userRouter from './routers/usersRouter.js';
+import productsRouter from './routers/products.Router.js';
 
 const app: Express = express();
 
 app.use(express.json());
+app.use(userRouter);
+app.use(productsRouter);
 
-interface IUser {
-    id: number;
-    name: string;
-    email: string;
-}
-
-let users = [
-    {id: 1,
-    name: 'Jaquim',
-    email: 'jaquimcouves@gmail.com'},
-
-    {id: 2,
-    name: 'Josefina',
-    email: 'finagrega@gmail.com'}
-]
-
-app.get('/users', (req: Request, res:Response) => {
-    res.json(users)
-});
 
 const PORT = 3000;
-
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 });
