@@ -1,12 +1,11 @@
 export interface IUser {
     id: number;
-    name: string;
     email: string;
     password?: string;
 }
 
 export interface IProduct {
-    id: number,
+    id: string,
     title: string,
     description?: string,
     category: string,
