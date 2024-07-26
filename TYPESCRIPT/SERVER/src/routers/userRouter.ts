@@ -8,11 +8,11 @@ router.get('/users', usersControllers.getAll);
 // Get user by id
 router.get('/users/:id', usersControllers.getOne)
 // Create a new user
-router.post('/users/', usersControllers.create)
-// Update an existing user 
-router.put('/users/:id', usersControllers.update)
-// Delete an existing 
-router.delete('/users/:id', usersControllers.delete)
+// router.post('/users/', usersControllers.create)
+// // Update an existing user 
+// router.put('/users/:id', usersControllers.update)
+// // Delete an existing 
+// router.delete('/users/:id', usersControllers.delete)
 
 export default router;
 

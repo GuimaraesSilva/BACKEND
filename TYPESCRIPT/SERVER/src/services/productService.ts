@@ -53,18 +53,44 @@ class ProductService {
             throw new Error('Failed to create products');
         }
     }
-    update = async () => {
+    update = (productId: string, product: IProduct): IProduct | undefined => {
         try {
-            
+            const products = this.readProductsJson();
+            if (!products){
+                throw new Error('Failed to read products');
+            }
+            const productIndex = products.findIndex(product => product.id === productId);
+            if (productIndex === -1){
+                // throw new Error ('Product not found');
+                return undefined;
+            }
+            const productToUpdateWithId = {...products[productIndex], ...product}; // Merge product with id
+            products[productIndex] = productToUpdateWithId; // Update Product
+            this.writeProductsJson(products);
+            return productToUpdateWithId;
+
         } catch (error) {
-            console.log(error);
+            throw new Error ('Failed to update product');
         }
     }
-    delete = async () => {
+    delete = (productId: string): IProduct | undefined => {
         try {
+            const products: IProduct[] | undefined = this.readProductsJson();
+            if (!products){
+                throw new Error('Failed to read products');
+            }
+            const productIndex = products.findIndex(product => product.id === productId);
+            if (productIndex === -1){
+                // throw new Error ('Product not found');
+                return undefined;
+            }
+            const arr = products.splice(productIndex, 1);
+            const deletedProduct = arr[0]; // Delete product
+            this.writeProductsJson(products);
+            return deletedProduct;
             
         } catch (error) {
-            console.log(error);
+            throw new Error ('Failed to delete product');
         }
     }
 }
