@@ -1,23 +1,22 @@
 [
   {
-    "title": "Inicial Product",
+    "title": "TESTE",
     "description": "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.",
     "category": "beauty",
-    "price": 9.99,
+    "price": 15.99,
     "brand": "Essence",
     "sku": "RCH45Q1A",
     "image": "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png",
-    "id": "15796652-41b6-4132-aab5-b016ecb2f723"
+    "id": "ad203ae2-6dc4-4202-abc8-8c3ffca8b1b6"
   },
   {
-    "title": "New Product",
+    "title": "Essence TESTE",
     "description": "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.",
     "category": "beauty",
     "price": 10.99,
     "brand": "Essence",
     "sku": "RCH45Q1A",
     "image": "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png",
-    "id": "ad203ae2-6dc4-4202-abc8-8c3ffca8b1b6"
+    "id": "f7b854e5-2a4d-43e3-aadb-8642af589139"
   }
-  
 ]

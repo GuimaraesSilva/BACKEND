@@ -1,4 +1,18 @@
 [
-    {"id": 1, "name": "Jaquim", "email": "jaquimcouves@gmail.com"},
-    {"id": 2, "name": "Josefina", "email": "finagrega@gmail.com"}
+  {
+    "id": 1,
+    "name": "Jaquim",
+    "email": "jaquimcouves@gmail.com"
+  },
+  {
+    "id": 2,
+    "name": "Josefina",
+    "email": "finagrega@gmail.com"
+  },
+  {
+    "id": "8b6a6852-c3cb-4501-a177-1e7517ec5441",
+    "name": "Sheila",
+    "email": "sheilamarlene@gmail.com",
+    "password": "$2b$07$cq5wgrCFo0.dmwg2X9MxruOSldG5sULaOG5yG1t9qan3ibxvlxB9G"
+  }
 ]
