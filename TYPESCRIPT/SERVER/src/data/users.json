@@ -1,18 +1,28 @@
 [
   {
     "id": 1,
-    "name": "Jaquim",
-    "email": "jaquimcouves@gmail.com"
+    "name": "João Moreira",
+    "email": "joao@email.pt"
   },
   {
     "id": 2,
-    "name": "Josefina",
-    "email": "finagrega@gmail.com"
+    "name": "Fábio",
+    "email": "Fabinhodascarnes@email.pt"
   },
   {
-    "id": "8b6a6852-c3cb-4501-a177-1e7517ec5441",
-    "name": "Sheila",
-    "email": "sheilamarlene@gmail.com",
-    "password": "$2b$07$cq5wgrCFo0.dmwg2X9MxruOSldG5sULaOG5yG1t9qan3ibxvlxB9G"
+    "id": 3,
+    "name": "nuno",
+    "email": "Nunodespedimentos@email.pt"
+  },
+  {
+    "id": 4,
+    "name": "Joana",
+    "email": "JoanaSkywalker@email.pt"
+  },
+  {
+    "name": "Joana",
+    "email": "JoanaSkywalker2@email.pt",
+    "password": "$2b$07$iqIG4YehuB91vo2iBzZTkOpGBOYVjVvcGMFmlUt3UGoeAxuF79mx6",
+    "id": "d5b98c07-8e66-4e9d-ae05-f3998901618a"
   }
 ]

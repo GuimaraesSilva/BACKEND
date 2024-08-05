@@ -1,22 +1,22 @@
 [
-  {
-    "title": "TESTE",
-    "description": "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.",
-    "category": "beauty",
-    "price": 15.99,
-    "brand": "Essence",
-    "sku": "RCH45Q1A",
-    "image": "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png",
-    "id": "ad203ae2-6dc4-4202-abc8-8c3ffca8b1b6"
-  },
-  {
-    "title": "Essence TESTE",
-    "description": "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.",
-    "category": "beauty",
-    "price": 10.99,
-    "brand": "Essence",
-    "sku": "RCH45Q1A",
-    "image": "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png",
-    "id": "f7b854e5-2a4d-43e3-aadb-8642af589139"
-  }
+    {
+        "title": "PRODUCT TEST CREATE",
+        "description": "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.",
+        "category": "beauty",
+        "price": 9.99,
+        "brand": "Essence",
+        "sku": "RCH45Q1A",
+        "image": "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png",
+        "id": "957f54e6-214d-4b64-888a-572653a2bb33"
+    },
+    {
+        "title": "PRODUCT TEST UPDATE",
+        "description": "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.",
+        "category": "beauty",
+        "price": 299.99,
+        "brand": "Essence",
+        "sku": "RCH45Q1A",
+        "image": "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png",
+        "id": "75cd1d77-c8da-4b3e-9ed3-f837ec443b87"
+    }
 ]
