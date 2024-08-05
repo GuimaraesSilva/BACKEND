@@ -32,7 +32,7 @@ class UserController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return res.status(400).json({ errors: errors.array() });
+                return res.status(422).json({ errors: errors.array() });
             }
             const userToCreate: IUser = req.body;
             const createdUser: any = await userService.register(userToCreate);
@@ -41,6 +41,23 @@ class UserController {
             res.status(500).json({ error: "Failed to create user" });
         }
     };
+    login = async (req: Request, res: Response) => {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(422).json({ errors: errors.array() });
+            }
+            const {email, password} = req.body;
+            const foundUser: any = await userService.login(email, password);
+            if(foundUser === null){
+                return res.status(404).json({error: 'Invalid email or password'})
+            }
+            res.json(foundUser);
+        } catch (error) {
+            res.status(500).json({ error: "Failed to create user" });
+        }
+    };
+
     update = async (req: Request, res: Response) => {
         try {
             const userId: string = req.params.id;

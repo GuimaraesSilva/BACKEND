@@ -1,6 +1,7 @@
 import { Router } from "express";
 import UserController from "../controllers/userController.js";
 import { check } from "express-validator";
+
 const router: Router = Router();
 const validateUser = [
     check("name").notEmpty().withMessage("Name is required"),
@@ -21,8 +22,23 @@ router.get("/users", UserController.getAll);
 // Get user by ID
 router.get("/users/:id", UserController.getOne);
 
-// Create a new user
-router.post("/users", UserController.register);
+// Register a new user
+router.post("/users/register", 
+    // validateUser
+    [
+    check("name").notEmpty().withMessage("Name is required"),
+    check ('email').isEmail().withMessage("Invalid email format"),
+    check ('password').isStrongPassword(),
+    check ('role').isIn(["USER", "ADMIN", "GUEST"]).withMessage('Invalid role')
+]
+,UserController.register);
+
+// Login user
+router.post('/users/login',[
+    check ('email').isEmail().withMessage("Invalid email format"),
+    check ('password').notEmpty().withMessage('Password is required'),
+], 
+UserController.login);
 
 // Update an existing user
 router.put("/users/:id", UserController.update);
