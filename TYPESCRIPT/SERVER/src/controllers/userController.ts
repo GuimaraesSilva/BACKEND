@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { IUser } from "../models/userModel.js";
 import userService from "../services/userService.js";
 import { validationResult } from "express-validator";
+import fileService from "../utils/fileService.js";
 
 class UserController {
     getAll = async (req: Request, res: Response) => {
@@ -31,11 +32,13 @@ class UserController {
     register = async (req: Request, res: Response) => {
         try {
             const errors = validationResult(req);
+            const avatar = req.files?.avatarFile;
+            console.log(avatar);
             if (!errors.isEmpty()) {
                 return res.status(422).json({ errors: errors.array() });
             }
             const userToCreate: IUser = req.body;
-            const createdUser: any = await userService.register(userToCreate);
+            const createdUser: any = await userService.register(userToCreate, avatar);
             res.status(201).json(createdUser);
         } catch (error) {
             res.status(500).json({ error: "Failed to create user" });
@@ -48,11 +51,11 @@ class UserController {
                 return res.status(422).json({ errors: errors.array() });
             }
             const {email, password} = req.body;
-            const foundUser: any = await userService.login(email, password);
-            if(foundUser === null){
+            const foundUserWithToken: any = await userService.login(email, password);
+            if(foundUserWithToken === null){
                 return res.status(404).json({error: 'Invalid email or password'})
             }
-            res.json(foundUser);
+            res.json(foundUserWithToken);
         } catch (error) {
             res.status(500).json({ error: "Failed to create user" });
         }

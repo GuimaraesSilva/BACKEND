@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import fileService from "../utils/fileService.js";
 
 dotenv.config();
 
@@ -46,12 +47,18 @@ class UserService {
         }
     };
 
-    register = async (newUser: IUser): Promise<IUser> => {
+    register = async (newUser: IUser, avatar: any): Promise<IUser> => {
         try {
             const foundUser = await UserModel.findOne({ email: newUser.email});
             if (foundUser) {
                 throw new Error ('Email already exists');
             }
+            let avatarName = "default.jpg";
+            if (avatar) {
+                avatarName = fileService.save(avatar);
+            }
+
+            newUser.avatar = avatarName;
 
             const hashedPassword = await bcrypt.hash(newUser.password, 10);
             newUser.password = hashedPassword;
