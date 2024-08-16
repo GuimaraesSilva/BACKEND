@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import IMovie from '../interfaces/movieInterface.js';
+import movieService from '../services/movieService.js';
 
 class MovieController {
   async getAll(req: Request, res: Response, next: NextFunction) {}
@@ -7,17 +8,16 @@ class MovieController {
 
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const { title, releaseDate, trailerLink, posterUrl, genders } = req.body;
-
-      const newMovie = {
+      const { title, releaseDate, trailerLink, genders } = req.body;
+      const poster = req.files?.poster;
+      const movieData = {
         title,
         releaseDate,
         trailerLink,
-        posterUrl,
         genders,
       } as IMovie;
 
-      const createdMovie = newMovie;
+      const createdMovie = await movieService.create(movieData, poster);
 
       res.status(201).json(createdMovie);
     } catch (error) {
