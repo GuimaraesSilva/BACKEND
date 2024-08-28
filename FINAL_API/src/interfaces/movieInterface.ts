@@ -5,5 +5,5 @@ export default interface IMovie extends Document {
   releaseDate: Date;
   trailerLink: string;
   posterUrl: string;
-  genders: string[];
+  genrers: string[];
 }

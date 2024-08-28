@@ -4,6 +4,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import fileUpload from 'express-fileupload';
 import MovieRouter from './routers/movieRouter.js';
+import { setupSwagger } from './config/swagger.js';
 
 dotenv.config();
 const PORT = process.env.PORT || 7878;
@@ -13,7 +14,6 @@ const app = express();
 app.use(fileUpload());
 app.use(express.static('static'));
 
-
 app.use(
   cors({
     origin: '*',
@@ -22,7 +22,6 @@ app.use(
 
 app.use(express.json());
 app.use('/api', MovieRouter);
-
 
 const sartApp = async () => {
   try {
@@ -45,3 +44,4 @@ const sartApp = async () => {
 };
 
 sartApp();
+setupSwagger(app);

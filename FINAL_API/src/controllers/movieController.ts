@@ -1,32 +1,42 @@
 import { Request, Response, NextFunction } from 'express';
-import IMovie from '../interfaces/movieInterface.js';
-import movieService from '../services/movieService.js';
+import MovieService from '../services/movieService.js';
 
-class MovieController {
-  async getAll(req: Request, res: Response, next: NextFunction) {}
-  async getOne(req: Request, res: Response, next: NextFunction) {}
-
-  async create(req: Request, res: Response, next: NextFunction) {
+export class MovieController {
+  async listMovies(req: Request, res: Response, next: NextFunction) {
     try {
-      const { title, releaseDate, trailerLink, genders } = req.body;
-      const poster = req.files?.poster;
-      const movieData = {
-        title,
-        releaseDate,
-        trailerLink,
-        genders,
-      } as IMovie;
-
-      const createdMovie = await movieService.create(movieData, poster);
-
-      res.status(201).json(createdMovie);
-    } catch (error) {
-      console.log(error);
+      const movies = await MovieService.getAll();
+      res.json(movies);
+    } catch (error: unknown) {
+      next(error);
     }
   }
 
-  async update(req: Request, res: Response, next: NextFunction) {}
-  async delete(req: Request, res: Response, next: NextFunction) {}
+  async createMovie(req: Request, res: Response, next: NextFunction) {
+    try {
+      const movie = await MovieService.create(req.body);
+      res.status(201).json(movie);
+    } catch (error: unknown) {
+      next(error);
+    }
+  }
+
+  async editMovie(req: Request, res: Response, next: NextFunction) {
+    try {
+      const movie = await MovieService.update(req.params.id, req.body);
+      res.json(movie);
+    } catch (error: unknown) {
+      next(error);
+    }
+  }
+
+  async removeMovie(req: Request, res: Response, next: NextFunction) {
+    try {
+      await MovieService.delete(req.params.id);
+      res.json({ message: 'Movie deleted' });
+    } catch (error: unknown) {
+      next(error);
+    }
+  }
 }
 
 export default new MovieController();
