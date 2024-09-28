@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import fileUpload from 'express-fileupload';
 import MovieRouter from './routers/movieRouter.js';
 import { setupSwagger } from './config/swagger.js';
+import authRouter from './routers/authRouter.js';
 
 dotenv.config();
 const PORT = process.env.PORT || 7878;
@@ -21,6 +22,8 @@ app.use(
 );
 
 app.use(express.json());
+app.use('/api/auth', authRouter);
+
 app.use('/api', MovieRouter);
 
 const sartApp = async () => {

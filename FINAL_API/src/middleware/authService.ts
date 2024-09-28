@@ -2,20 +2,20 @@ import bcrypt from 'bcrypt';
 import User from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
 
-const generateToken = (id: unknown, role: unknown) => {
-  if (typeof id !== 'string' || typeof role !== 'string') {
-    throw new Error('Invalid token generation');
+
+const generateToken = (userId: string) => {
+  const secretKey = process.env.JWT_SECRET;
+  if (!secretKey) {
+    console.error('JWT_SECRET is not set in the environment variables.');
+    throw new Error('JWT secret key is not defined');
   }
 
-  const secretKey = process.env.SECRET_KEY || 'your_secret_key_here';
-  const expiresIn = '1h'; // token expires in 1 hour
-
-  const token = jwt.sign({ id, role }, secretKey, {
-    expiresIn,
-  });
-
+  // Proceed with token generation
+  const token = jwt.sign({ id: userId }, secretKey, { expiresIn: '1h' });
   return token;
 };
+
+export default generateToken;
 
 export const registerUser = async (name: string, email: string, password: string) => {
   const userExists = await User.findOne({ email });

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import MovieService from '../services/movieService.js';
 
 export class MovieController {
-  async listMovies(req: Request, res: Response, next: NextFunction) {
+  async getAllMovies(req: Request, res: Response, next: NextFunction) {
     try {
       const movies = await MovieService.getAll();
       res.json(movies);
@@ -11,7 +11,7 @@ export class MovieController {
     }
   }
 
-  async createMovie(req: Request, res: Response, next: NextFunction) {
+  async createNewMovie(req: Request, res: Response, next: NextFunction) {
     try {
       const movie = await MovieService.create(req.body);
       res.status(201).json(movie);
@@ -20,7 +20,7 @@ export class MovieController {
     }
   }
 
-  async editMovie(req: Request, res: Response, next: NextFunction) {
+  async updateMovie(req: Request, res: Response, next: NextFunction) {
     try {
       const movie = await MovieService.update(req.params.id, req.body);
       res.json(movie);
@@ -29,7 +29,7 @@ export class MovieController {
     }
   }
 
-  async removeMovie(req: Request, res: Response, next: NextFunction) {
+  async deleteMovie(req: Request, res: Response, next: NextFunction) {
     try {
       await MovieService.delete(req.params.id);
       res.json({ message: 'Movie deleted' });
@@ -40,3 +40,7 @@ export class MovieController {
 }
 
 export default new MovieController();
+export const getAllMovies = new MovieController().getAllMovies;
+export const createNewMovie = new MovieController().createNewMovie;
+export const updateMovie = new MovieController().updateMovie;
+export const deleteMovie = new MovieController().deleteMovie;

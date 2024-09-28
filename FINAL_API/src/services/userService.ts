@@ -1,4 +1,5 @@
-import User, { IUser } from '../interfaces/userInterface.js';
+import User from '../models/userModel.js';
+import IUser from '../interfaces/userInterface.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -13,7 +14,7 @@ export const registerUser = async (name: string, email: string, password: string
 };
 
 export const loginUser = async (email: string, password: string) => {
-  const user = await .findOne({ email });
+  const user = await User.findOne({ email });
   if (!user) {
     throw new Error('Invalid credentials');
   }
@@ -25,5 +26,5 @@ export const loginUser = async (email: string, password: string) => {
 
   const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
 
-  return {token, user};
+  return { token, user };
 };

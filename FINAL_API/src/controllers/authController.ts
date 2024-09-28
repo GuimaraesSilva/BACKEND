@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import { registerUser, loginUser } from '../middleware/authService.js';
 import User from '../models/userModel.js';
 
+
+
 export class AuthController {
   async register(req: Request, res: Response, next: NextFunction) {
     try {
@@ -32,9 +34,16 @@ export class AuthController {
   }
 
   async getUsers(req: Request, res: Response, next: NextFunction) {
-    const users = await User.find().select('-password');
-    res.json(users);
+    try {
+      const users = await User.find().select('-password');
+      res.json(users);
+    } catch (error) {
+      res.status(500).json({ message: 'Error fetching users' });
+    }
   }
 }
 
 export default new AuthController();
+export const register = new AuthController().register;
+export const login = new AuthController().login;
+export const getUsers = new AuthController().getUsers;
