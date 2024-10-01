@@ -3,6 +3,8 @@ import User from '../models/userModel.js';
 import IUser from '../interfaces/userInterface.js';
 import { verifyToken } from '../utils/jwt.js';
 
+
+
 interface AuthRequest extends Request {
   user?: IUser | null;
 }
@@ -40,3 +42,4 @@ export const admin = (req: AuthRequest, res: Response, next: NextFunction) => {
     res.status(403).json({ message: 'Admin only access' });
   }
 };
+

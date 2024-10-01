@@ -1,23 +1,38 @@
 import bcrypt from 'bcrypt';
 import User from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
+import IUser from '../interfaces/userInterface.js';
 
 
-const generateToken = (userId: string) => {
+// const generateToken = (userId: string) => {
+//   const secretKey = process.env.JWT_SECRET;
+//   if (!secretKey) {
+//     console.error('JWT_SECRET is not set in the environment variables.');
+//     throw new Error('JWT secret key is not defined');
+//   }
+
+//   // Proceed with token generation
+//   const token = jwt.sign({ id: userId }, secretKey, { expiresIn: '1h' });
+//   return token;
+// };
+
+// export default generateToken;
+
+const generateToken = (userId: string, role: string) => {
   const secretKey = process.env.JWT_SECRET;
   if (!secretKey) {
     console.error('JWT_SECRET is not set in the environment variables.');
     throw new Error('JWT secret key is not defined');
   }
 
-  // Proceed with token generation
-  const token = jwt.sign({ id: userId }, secretKey, { expiresIn: '1h' });
+  // Include role in the token payload
+  const token = jwt.sign({ id: userId, role }, secretKey, { expiresIn: '1h' });
   return token;
 };
 
-export default generateToken;
+export default generateToken
 
-export const registerUser = async (name: string, email: string, password: string) => {
+export const registerUser = async (name: string, email: string, password: string, role: any) => {
   const userExists = await User.findOne({ email });
 
   if (userExists) {
@@ -31,6 +46,7 @@ export const registerUser = async (name: string, email: string, password: string
     name,
     email,
     password: hashedPassword,
+    role: role || 'User',
   });
 
   return { user, token: generateToken(user._id as string, user.role as string) };
@@ -44,4 +60,22 @@ export const loginUser = async (email: string, password: string) => {
   } else {
     throw new Error('Invalid email or password');
   }
+};
+
+export const updateUserById = async (id: string, updateData: Partial<IUser>) => {
+  const user = await User.findByIdAndUpdate(id, updateData, { new: true });
+  if (!user) {
+    throw new Error('User not found');
+  }
+  return user;
+};
+
+export const deleteUser = async (id: string) => {
+  const user = await User.findByIdAndDelete(id);
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  return { message: 'User deleted successfully' };
 };

@@ -13,13 +13,14 @@
 
 import express from 'express';
 import { protect, admin } from '../middleware/authMiddleware.js';
-import { getAllMovies, createNewMovie, updateMovie, deleteMovie } from '../controllers/movieController.js';
+import { getAllMovies, getMovieFilter, createNewMovie, updateMovie, deleteMovie } from '../controllers/movieController.js';
 
 const router = express.Router();
 
-router.get('/', getAllMovies);
-router.post('/', protect, admin, createNewMovie);
-router.put('/:id', protect, admin, updateMovie);
-router.delete('/:id', protect, admin, deleteMovie);
+router.get('/movies', protect, getAllMovies);
+router.get('/movies/search', protect, getMovieFilter);
+router.post('/movies', protect, admin, createNewMovie);
+router.put('/movies/:id', protect, admin, updateMovie);
+router.delete('/movies/:id', protect, admin, deleteMovie);
 
 export default router;
