@@ -10,9 +10,23 @@ const swaggerOptions = {
       version: '1.0.0',
       description: 'API for managing movie trailers',
     },
-    servers: [{ url: 'http://localhost:3000' }],
+    servers: [{ url: 'http://localhost:7878' }],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
-  apis: ['./src/routers/*.ts'],
+  apis: ['./src/controllers/*.ts'], 
 };
 
 const swaggerDocs = swaggerJSDoc(swaggerOptions);

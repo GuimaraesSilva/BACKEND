@@ -1,78 +1,182 @@
 import { Request, Response, NextFunction } from 'express';
-import { registerUser, loginUser, updateUserById} from '../middleware/authService.js';
+import { registerUser, loginUser } from '../services/userService.js';
 import User from '../models/userModel.js';
 
-
-
+/**
+ * @swagger
+ * tags:
+ *   name: Auth
+ *   description: Endpoints relacionados à autenticação
+ */
 export class AuthController {
+  /**
+   * @swagger
+   * /api/auth/register:
+   *   post:
+   *     summary: Registra um novo usuário
+   *     tags: [Auth]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - name
+   *               - email
+   *               - password
+   *             properties:
+   *               name:
+   *                 type: string
+   *               email:
+   *                 type: string
+   *               password:
+   *                 type: string
+   *     responses:
+   *       201:
+   *         description: Usuário registrado com sucesso
+   *       400:
+   *         description: Erro na requisição
+   */
   async register(req: Request, res: Response, next: NextFunction) {
     try {
-      const { name, email, password, role } = req.body;
-      const { user, token } = await registerUser(name, email, password, role);
-      res.status(201).json({ user, token });
+      const { name, email, password } = req.body;
+      const user = await registerUser(name, email, password);
+      res.status(201).json(user);
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        res.status(400).json({ message: error.message });
-      } else {
-        res.status(400).json({ message: 'An unknown error occurred' });
-      }
+      next(error);
     }
   }
 
+  /**
+   * @swagger
+   * /api/auth/login:
+   *   post:
+   *     summary: Faz login de um usuário
+   *     tags: [Auth]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - email
+   *               - password
+   *             properties:
+   *               email:
+   *                 type: string
+   *               password:
+   *                 type: string
+   *     responses:
+   *       200:
+   *         description: Login bem-sucedido
+   *       401:
+   *         description: Credenciais inválidas
+   */
   async login(req: Request, res: Response, next: NextFunction) {
     try {
       const { email, password } = req.body;
-      const { user, token } = await loginUser(email, password);
-      res.status(200).json({ user, token });
+      const { token, user } = await loginUser(email, password);
+      res.json({ token, user });
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        res.status(400).json({ message: error.message });
-      } else {
-        res.status(400).json({ message: 'An unknown error occurred' });
-      }
+      next(error);
     }
   }
 
+  /**
+   * @swagger
+   * /api/auth/users:
+   *   get:
+   *     summary: Busca lista de usuários (Apenas Admin)
+   *     tags: [Auth]
+   *     security:
+   *       - bearerAuth: []
+   *     responses:
+   *       200:
+   *         description: Lista de usuários
+   *       403:
+   *         description: Acesso negado
+   */
   async getUsers(req: Request, res: Response, next: NextFunction) {
     try {
       const users = await User.find().select('-password');
       res.json(users);
-    } catch (error) {
-      res.status(500).json({ message: 'Error fetching users' });
+    } catch (error: unknown) {
+      next(error);
     }
   }
 
+  /**
+   * @swagger
+   * /api/auth/users/{id}:
+   *   put:
+   *     summary: Atualiza detalhes do usuário (Apenas Admin)
+   *     tags: [Auth]
+   *     security:
+   *       - bearerAuth: []
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: ID do usuário
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               name:
+   *                 type: string
+   *               email:
+   *                 type: string
+   *               role:
+   *                 type: string
+   *     responses:
+   *       200:
+   *         description: Usuário atualizado com sucesso
+   *       403:
+   *         description: Acesso negado
+   */
   async updateUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
-      const { name, email, role } = req.body;
-      const updatedUser = await updateUserById(id, { name, email, role });
-      res.status(200).json(updatedUser);
+      const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true }).select('-password');
+      res.json(user);
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        res.status(400).json({ message: error.message });
-      } else {
-        res.status(400).json({ message: 'An unknown error occurred' });
-      }
+      next(error);
     }
   }
 
+  /**
+   * @swagger
+   * /api/auth/users/{id}:
+   *   delete:
+   *     summary: Deleta um usuário (Apenas Admin)
+   *     tags: [Auth]
+   *     security:
+   *       - bearerAuth: []
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: ID do usuário
+   *     responses:
+   *       200:
+   *         description: Usuário deletado com sucesso
+   *       403:
+   *         description: Acesso negado
+   */
   async deleteUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
-      const user = await User.findByIdAndDelete(id);
-
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-
-      res.status(200).json({ message: 'User deleted successfully' });
+      await User.findByIdAndDelete(req.params.id);
+      res.json({ message: 'User deleted' });
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        res.status(400).json({ message: error.message });
-      } else {
-        res.status(400).json({ message: 'An unknown error occurred' });
-      }
+      next(error);
     }
   }
 }

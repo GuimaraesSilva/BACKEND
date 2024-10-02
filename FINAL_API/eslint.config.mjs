@@ -15,12 +15,12 @@ const compat = new FlatCompat({
 export default [
   ...compat.extends('plugin:@typescript-eslint/recommended'),
   {
+    files: ['**/*.ts'],
     languageOptions: {
       parser: tsParser,
       ecmaVersion: 2018,
       sourceType: 'module',
     },
-
     rules: {},
   },
 ];

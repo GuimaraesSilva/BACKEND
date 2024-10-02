@@ -29,7 +29,11 @@ app.use('/api', MovieRouter);
 const sartApp = async () => {
   try {
     mongoose.set('strictQuery', true);
-    await mongoose.connect(String(process.env.MONGO_URI));
+    const mongoUri = process.env.MONGO_URI;
+    if (!mongoUri) {
+      throw new Error('MONGO_URI is not defined in .env file');
+    }
+    await mongoose.connect(mongoUri);
     console.log('Sucessfully connected to DB');
 
     app.listen(PORT, () => {

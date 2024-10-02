@@ -1,8 +1,8 @@
-import { Router } from 'express';
-import { register, login, getUsers, updateUser, deleteUser } from '../controllers/authController.js';
+import express from 'express';
 import { protect, admin } from '../middleware/authMiddleware.js';
+import { register, login, getUsers, updateUser, deleteUser } from '../controllers/authController.js';
 
-const router = Router();
+const router = express.Router();
 
 /**
  * @swagger
